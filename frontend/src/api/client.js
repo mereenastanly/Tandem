@@ -1,10 +1,12 @@
 import axios from 'axios';
 
+// In production (deployed on Vercel), VITE_API_URL is set to your live
+// Render backend URL. Locally, it falls back to localhost since that
+// env var won't be set on your machine.
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
 });
 
-// Automatically attach the JWT token (if we have one) to every request
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
